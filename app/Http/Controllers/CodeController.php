@@ -33,6 +33,37 @@ class CodeController extends Controller
 
     }
 
+    public function checkCode(Request $request)
+    {
+        
+
+        $code = Code::where('code', $request->code)->first();
+    
+        if ($code) {
+
+            
+            return response()->json([
+
+                'code'=>200,
+                'message' => 'Discount code valid',
+                'discountCode'=>$code
+               
+              
+            ]);
+        } 
+        
+        else {
+
+            return response()->json([
+
+                'code'=>401,
+                'message' => 'Invalid code'
+
+            ]);
+        }
+    }
+
+
 
 
     public function deleteCode(string $id)

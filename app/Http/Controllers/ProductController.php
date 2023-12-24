@@ -27,7 +27,6 @@ class ProductController extends Controller
         $product->sizeGuide=$request->input('sizeGuide');
 
 
-
         $product->save();
 
         $imagePath = null;

@@ -17,6 +17,7 @@ Route::post('/logout', [AdminController::class, 'logout']);
 
 
 Route::post('/createCode', [CodeController::class, 'createCode']);
+Route::post('/checkCode', [CodeController::class, 'checkCode']);
 Route::delete('/deleteCode/{id}', [CodeController::class, 'deleteCode']);
 
 

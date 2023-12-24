@@ -14,4 +14,6 @@ class Code extends Model
         'code',
         'discount',
     ];
+
+    protected $hidden = ['created_at','updated_at'];
 }

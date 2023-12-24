@@ -21,6 +21,8 @@ class Product extends Model
         'sizeGuide',
     ];
 
+    protected $hidden = ['created_at','updated_at'];
+
     protected $casts = [
         'sizes' => 'json',
     ];
