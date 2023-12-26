@@ -72,19 +72,21 @@ class ProductController extends Controller
 
             'status' => 200,
             'message' => 'product created successfully',
-            'path'=>$path
-
+            
         ]);
 
 
     }
 
+
+
+
+
+
+
     public function getProduct(string $id){
 
-
         $product = Product::with('image')->findOrFail($id);
-
-        $productData = [];
 
         
             $imagePaths = [];
@@ -93,20 +95,22 @@ class ProductController extends Controller
                 $imagePath = asset('public/storage/' . $image->path);
                 $imagePaths[] = $imagePath;
             }
-    
+
             $productData[] = [
                 'id' => $product->id,
                 'name' => $product->name,
                 'gender' => $product->gender,
                 'category' => $product->category,
                 'color' => $product->color,
-                'sizes' => $product->sizes,
+                'sizes' => is_array($product->sizes) ? $product->sizes : explode(',', $product->sizes),
                 'stock' => $product->stock,
                 'price' => $product->price,
                 'priceAfterCode' => $product->priceAfterCode,
                 'sizeGuide' => $product->sizeGuide,
                 'imagePaths' => $imagePaths,
             ];
+    
+            
         
     
         return response()->json([
@@ -115,6 +119,13 @@ class ProductController extends Controller
             'products' => $productData,
         ]);
     }
+
+
+
+
+
+
+
 
     public function getAllProducts(){
 
@@ -136,7 +147,7 @@ class ProductController extends Controller
             'gender' => $product->gender,
             'category' => $product->category,
             'color' => $product->color,
-            'sizes' => $product->sizes,
+            'sizes' => is_array($product->sizes) ? $product->sizes : explode(',', $product->sizes),
             'stock' => $product->stock,
             'price' => $product->price,
             'priceAfterCode' => $product->priceAfterCode,
@@ -152,6 +163,12 @@ class ProductController extends Controller
     ]);
 
     }
+
+
+
+
+
+
 
 
     public function EditProductInfo(Request $request, string $id)
@@ -184,6 +201,12 @@ class ProductController extends Controller
 
 
 
+
+
+
+
+
+
     public function deleteProduct(string $id)
     {
         $product = Product::findOrFail($id);
@@ -206,4 +229,9 @@ class ProductController extends Controller
 
         ]);
     }
+
+
+
+
+    
 }
