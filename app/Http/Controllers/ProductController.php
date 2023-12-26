@@ -4,23 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 use App\Models\Product;
 
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\validator;
+
 
 class ProductController extends Controller
 {
 
     public function createProduct(Request $request)
     {
+
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'gender' => 'required',
+            'category' => 'required',
+            'color' => 'required',
+            'stock' => 'required',
+            'price' => 'required',
+            'priceAfterCode'=>'required',
+            'sizeGuide'=>'required',
+            //'image' => 'required|file|mimes:jpeg,png,jpg,gif', // Validate image type and size
+
+          
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()], 401);
+        }
         $product = new product;
 
         $product->name=$request->input('name');
         $product->gender=$request->input('gender');
         $product->category=$request->input('category');
         $product->color=$request->input('color');
-        $product->sizes=$request->input('sizes');
+        $product->sizes=["xs"];
         $product->stock=$request->input('stock');
         $product->price=$request->input('price');
         $product->priceAfterCode=$request->input('priceAfterCode');
@@ -32,14 +54,17 @@ class ProductController extends Controller
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('product_images', 'public');
 
-            $imageModel = new Image(['path' => $imagePath]);
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $fileName = date('His') . $fileName;
+            $path = $request->file('image')->storeAs('images/', $fileName, 'public');
+            $imageModel = new Image;
+            $imageModel->path = $path; 
             $product->image()->save($imageModel);
         }
-
-        $product->load('image'); // Reload the relationship to get the full image details
+    
+        $product->load('image');
 
 
         return response()->json([

@@ -33,6 +33,21 @@ class CodeController extends Controller
 
     }
 
+    public function getAllCodes(){
+
+
+        $codes = Code::all();
+
+        return response()->json([
+
+            'status' => 200,
+            'codes' => $codes,
+
+
+        ]);
+
+    }
+
     public function checkCode(Request $request)
     {
         

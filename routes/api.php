@@ -17,6 +17,7 @@ Route::post('/logout', [AdminController::class, 'logout']);
 
 
 Route::post('/createCode', [CodeController::class, 'createCode']);
+Route::get('/getAllCodes', [CodeController::class, 'getAllCodes']);
 Route::post('/checkCode', [CodeController::class, 'checkCode']);
 Route::delete('/deleteCode/{id}', [CodeController::class, 'deleteCode']);
 
@@ -27,6 +28,7 @@ Route::put('/updateOrderStatus/{id}', [OrderController::class, 'updateOrderStatu
 Route::get('/getAllOrders', [OrderController::class, 'getAllOrders']);
 Route::get('/getAllAcceptedOrders', [OrderController::class, 'getAllAcceptedOrders']);
 Route::get('/getAllRejectedOrders', [OrderController::class, 'getAllRejectedOrders']);
+
 
 
 Route::post('/createProduct', [ProductController::class, 'createProduct']);

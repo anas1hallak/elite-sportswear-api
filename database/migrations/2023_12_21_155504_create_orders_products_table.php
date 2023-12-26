@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('order_id');
             $table->integer('product_id');
             $table->integer('quantity');
+            $table->string('size');
             $table->double('subTotal');
             $table->double('subtotalAfterDiscount');
             $table->timestamps();
