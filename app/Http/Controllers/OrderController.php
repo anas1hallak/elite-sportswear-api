@@ -27,14 +27,14 @@ class OrderController extends Controller
         $order = new Order;
 
         $order->customerName=$request->input('customerName');
-        $order->phoneNumber=$request->input('phoneNumber');
+        $order->phoneNumber=$request->input('number');
         $order->state=$request->input('state');
 
         ////////////////////////////////// To handle dilivery address
 
-        if($request->input('address')!=null){
+        if($request->input('specificstate')!=null){
 
-            $order->address=$request->input('address');
+            $order->address=$request->input('specificstate');
 
             $order->qadmousName=null;
             $order->qadmousNumber=null;
@@ -44,9 +44,9 @@ class OrderController extends Controller
 
             $order->address=null;
 
-            $order->qadmousName=$request->input('qadmousName');
-            $order->qadmousNumber=$request->input('qadmousNumber');
-            $order->qadmousBranch=$request->input('qadmousBranch');
+            $order->qadmousName=$request->input('nameForKadmous');
+            $order->qadmousNumber=$request->input('numberForKadmous');
+            $order->qadmousBranch=$request->input('kadmousBransh');
         }
 
 
@@ -57,9 +57,9 @@ class OrderController extends Controller
          
         ////////////////////////////////// To handle discount code and price after discount
 
-        if($request->input('code')!=null){
+        if($request->input('pesentageCode')!=null){
 
-            $code =Code::where('code', '=', $request->input('code'))->first();
+            $code =Code::where('code', '=', $request->input('pesentageCode'))->first();
 
             $order->coachName=$code->coachName;
             $order->code=$code->code;
@@ -91,7 +91,7 @@ class OrderController extends Controller
     
         foreach ($request->input('products') as $productData) {
 
-            $product = Product::find($productData['product_id']);
+            $product = Product::find($productData['productId']);
             $price = $product->price;
             $quantity = $productData['quantity'];
 
@@ -118,7 +118,7 @@ class OrderController extends Controller
             $product->update();
 
             $order->products()->attach(
-                $productData['product_id'],
+                $productData['productId'],
                 [
                     'quantity' => $quantity,
                     'size'=>$productData['size'],
