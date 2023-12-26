@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\URL;
 
 use App\Models\Product;
 
@@ -58,7 +59,7 @@ class ProductController extends Controller
             $file = $request->file('image');
             $fileName = $file->getClientOriginalName();
             $fileName = date('His') . $fileName;
-            $path = $request->file('image')->storeAs('images/', $fileName, 'public');
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $imageModel = new Image;
             $imageModel->path = $path; 
             $product->image()->save($imageModel);
@@ -71,7 +72,7 @@ class ProductController extends Controller
 
             'status' => 200,
             'message' => 'product created successfully',
-
+            'path'=>$path
 
         ]);
 
@@ -89,7 +90,7 @@ class ProductController extends Controller
             $imagePaths = [];
             
             foreach ($product->image as $image) {
-                $imagePath = asset('app/public/' . $image->path);
+                $imagePath = asset('public/storage/' . $image->path);
                 $imagePaths[] = $imagePath;
             }
     
@@ -125,7 +126,7 @@ class ProductController extends Controller
             $imagePaths = [];
 
         foreach ($product->image as $image) {
-            $imagePath = asset('app/public/' . $image->path);
+            $imagePath = asset('public/storage/' . $image->path);
             $imagePaths[] = $imagePath;
         }
 
