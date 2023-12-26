@@ -87,9 +87,9 @@ class ProductController extends Controller
 
         
             $imagePaths = [];
-    
+            
             foreach ($product->image as $image) {
-                $imagePath = storage_path('app/public/' . $image->path);
+                $imagePath = asset('app/public/' . $image->path);
                 $imagePaths[] = $imagePath;
             }
     
@@ -125,7 +125,7 @@ class ProductController extends Controller
             $imagePaths = [];
 
         foreach ($product->image as $image) {
-            $imagePath = storage_path('app/public/' . $image->path);
+            $imagePath = asset('app/public/' . $image->path);
             $imagePaths[] = $imagePath;
         }
 
