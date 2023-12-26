@@ -42,7 +42,7 @@ class ProductController extends Controller
         $product->gender=$request->input('gender');
         $product->category=$request->input('category');
         $product->color=$request->input('color');
-        $product->sizes=["xs"];
+        $product->sizes=$request->input('sizes');
         $product->stock=$request->input('stock');
         $product->price=$request->input('price');
         $product->priceAfterCode=$request->input('priceAfterCode');
