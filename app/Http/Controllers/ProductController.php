@@ -83,28 +83,72 @@ class ProductController extends Controller
 
         $product = Product::with('image')->findOrFail($id);
 
+        $productData = [];
+
+        
+            $imagePaths = [];
+    
+            foreach ($product->image as $image) {
+                $imagePath = storage_path('app/public/' . $image->path);
+                $imagePaths[] = $imagePath;
+            }
+    
+            $productData[] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'gender' => $product->gender,
+                'category' => $product->category,
+                'color' => $product->color,
+                'sizes' => $product->sizes,
+                'stock' => $product->stock,
+                'price' => $product->price,
+                'priceAfterCode' => $product->priceAfterCode,
+                'sizeGuide' => $product->sizeGuide,
+                'imagePaths' => $imagePaths,
+            ];
+        
+    
         return response()->json([
-
             'status' => 200,
-            'product' => $product,
-
-
+            'message' => 'Products retrieved successfully',
+            'products' => $productData,
         ]);
-
     }
 
     public function getAllProducts(){
 
-
         $products = Product::with('image')->get();
 
-        return response()->json([
+        $productData = [];
 
-            'status' => 200,
-            'products' => $products,
+        foreach ($products as $product) {
+            $imagePaths = [];
 
+        foreach ($product->image as $image) {
+            $imagePath = storage_path('app/public/' . $image->path);
+            $imagePaths[] = $imagePath;
+        }
 
-        ]);
+        $productData[] = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'gender' => $product->gender,
+            'category' => $product->category,
+            'color' => $product->color,
+            'sizes' => $product->sizes,
+            'stock' => $product->stock,
+            'price' => $product->price,
+            'priceAfterCode' => $product->priceAfterCode,
+            'sizeGuide' => $product->sizeGuide,
+            'imagePaths' => $imagePaths,
+        ];
+    }
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Products retrieved successfully',
+        'products' => $productData,
+    ]);
 
     }
 
