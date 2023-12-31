@@ -52,20 +52,28 @@ class ProductController extends Controller
 
         $product->save();
 
-        $imagePath = null;
+        $imagePaths = [];
 
-        if ($request->hasFile('image')) {
+    if ($request->hasFile('images')) {
 
-            $file = $request->file('image');
-            $fileName = $file->getClientOriginalName();
-            $fileName = date('His') . $fileName;
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $imageModel = new Image;
-            $imageModel->path = $path; 
-            $product->image()->save($imageModel);
+        foreach ($request->file('images') as $file) {
+            
+            $fileName = date('His') . $file->getClientOriginalName();
+            $path = $file->storeAs('images', $fileName, 'public');
+            $imagePaths[] = $path;
         }
+
+        // Save the image paths to the Image model
+        foreach ($imagePaths as $path) {
+            $imageModel = new Image;
+            $imageModel->path = $path;
+            $product->image()->save($imageModel);
+            $product->load('image');
+        }
+    }
+
     
-        $product->load('image');
+
 
 
         return response()->json([
